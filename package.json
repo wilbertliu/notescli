@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "packageManager": "bun@1.3.3",
-  "description": "Create Apple Notes from Markdown via CLI (macOS).",
+  "description": "Create and Read Apple Notes from Markdown via CLI (macOS).",
   "license": "UNLICENSED",
   "bin": {
     "notescli": "dist/index.js"

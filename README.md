@@ -1,6 +1,6 @@
 # notescli
 
-Create Apple Notes from Markdown via CLI (macOS).
+Create and Read Apple Notes from Markdown via CLI (macOS).
 
 ## What it does
 
