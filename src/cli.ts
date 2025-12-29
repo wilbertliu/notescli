@@ -48,7 +48,8 @@ function buildProgram(): Command {
           : deriveTitle(markdown)
       const html = markdownToHtml(markdown)
 
-      if (opts['dry-run']) {
+      const dryRun = Boolean((opts as { dryRun?: unknown }).dryRun) || Boolean(opts['dry-run'])
+      if (dryRun) {
         const dryRun: { title: string; folder: string; account?: string } = {
           title,
           folder: config.folder,
