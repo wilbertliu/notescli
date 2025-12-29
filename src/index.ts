@@ -1,16 +1,8 @@
 #!/usr/bin/env node
-import { Command } from "commander";
+import { runCli } from "./cli";
 
-const program = new Command();
-
-program.name("notescli").description("Create Apple Notes from Markdown (macOS).");
-
-program
-  .command("create")
-  .description("Create a new note from Markdown input")
-  .action(() => {
-    process.stderr.write("Not implemented yet.\n");
-    process.exitCode = 1;
-  });
-
-program.parse();
+runCli(process.argv).catch((error: unknown) => {
+  const message = error instanceof Error ? error.message : String(error);
+  process.stderr.write(`${message}\n`);
+  process.exitCode = 1;
+});
