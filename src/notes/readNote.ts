@@ -53,4 +53,3 @@ export function parseReadNoteOutput(output: string): ReadNoteResult {
 
   return { id, name, html }
 }
-

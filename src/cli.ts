@@ -105,7 +105,9 @@ function buildProgram(): Command {
   return program
 }
 
-async function resolveConfig(opts: Record<string, unknown>): Promise<{ folder: string; account?: string }> {
+async function resolveConfig(
+  opts: Record<string, unknown>,
+): Promise<{ folder: string; account?: string }> {
   const fileConfig = await loadFileConfig()
   const envConfig = parseEnvConfig(process.env)
   const cliConfig: { folder?: string; account?: string } = {}
