@@ -35,4 +35,3 @@ describe("cli.selectMarkdownSource", () => {
     ).toThrow(/only one input source/i);
   });
 });
-

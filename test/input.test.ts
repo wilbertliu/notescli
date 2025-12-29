@@ -20,4 +20,3 @@ describe("input.deriveTitle", () => {
     expect(deriveTitle("\n\n")).toBe("Untitled");
   });
 });
-

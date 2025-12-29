@@ -11,7 +11,8 @@ export function runOsaScript(script: string, args: string[]): string {
   }
 
   if (result.status !== 0) {
-    const message = result.stderr.trim() || `osascript exited with ${result.status}`;
+    const message =
+      result.stderr.trim() || `osascript exited with ${result.status}`;
     const error = new Error(message);
     if (typeof result.status === "number") {
       (error as { code?: number }).code = result.status;

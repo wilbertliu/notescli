@@ -16,4 +16,3 @@ describe("notes.parseCreateNoteOutput", () => {
     expect(parsed).toEqual({ id: "x-coredata://abc", name: "My Note" });
   });
 });
-

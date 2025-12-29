@@ -16,7 +16,9 @@ export type CreatedNote = {
   name: string;
 };
 
-export async function createNote(params: CreateNoteParams): Promise<CreatedNote> {
+export async function createNote(
+  params: CreateNoteParams,
+): Promise<CreatedNote> {
   const tempDir = await mkdtemp(path.join(os.tmpdir(), "notescli-"));
   const bodyPath = path.join(tempDir, "body.html");
 
@@ -42,4 +44,3 @@ export function parseCreateNoteOutput(output: string): CreatedNote {
   }
   return { id, name };
 }
-

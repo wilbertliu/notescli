@@ -66,7 +66,12 @@ function buildProgram(): Command {
         return;
       }
 
-      const createParams: { title: string; folder: string; html: string; account?: string } = {
+      const createParams: {
+        title: string;
+        folder: string;
+        html: string;
+        account?: string;
+      } = {
         title,
         folder: config.folder,
         html,
@@ -92,12 +97,16 @@ export function selectMarkdownSource({
   stdin: boolean;
   isStdinTty: boolean;
 }): MarkdownInputSource {
-  const specified = [file ? "file" : null, text ? "text" : null, stdin ? "stdin" : null].filter(
-    Boolean,
-  );
+  const specified = [
+    file ? "file" : null,
+    text ? "text" : null,
+    stdin ? "stdin" : null,
+  ].filter(Boolean);
 
   if (specified.length > 1) {
-    throw new Error("Choose only one input source: --file, --text, or --stdin.");
+    throw new Error(
+      "Choose only one input source: --file, --text, or --stdin.",
+    );
   }
 
   if (text) return { kind: "text", text };
@@ -105,7 +114,9 @@ export function selectMarkdownSource({
   if (stdin) return { kind: "stdin" };
   if (!isStdinTty) return { kind: "stdin" };
 
-  throw new Error("No input provided. Use --file, --text, or pipe Markdown to stdin.");
+  throw new Error(
+    "No input provided. Use --file, --text, or pipe Markdown to stdin.",
+  );
 }
 
 function outputDryRun(
@@ -115,7 +126,12 @@ function outputDryRun(
   if (asJson) {
     process.stdout.write(
       `${JSON.stringify(
-        { dryRun: true, title: input.title, folder: input.folder, account: input.account ?? null },
+        {
+          dryRun: true,
+          title: input.title,
+          folder: input.folder,
+          account: input.account ?? null,
+        },
         null,
         2,
       )}\n`,
@@ -130,7 +146,10 @@ function outputDryRun(
   );
 }
 
-function outputCreated(created: { id: string; name: string }, asJson: boolean): void {
+function outputCreated(
+  created: { id: string; name: string },
+  asJson: boolean,
+): void {
   if (asJson) {
     process.stdout.write(`${JSON.stringify(created, null, 2)}\n`);
     return;

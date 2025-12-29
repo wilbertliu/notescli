@@ -63,7 +63,8 @@ export async function loadFileConfig(): Promise<NotesCliConfigInput> {
 
   const config = result.config as Record<string, unknown>;
   const folder = typeof config.folder === "string" ? config.folder : undefined;
-  const account = typeof config.account === "string" ? config.account : undefined;
+  const account =
+    typeof config.account === "string" ? config.account : undefined;
 
   const parsed: NotesCliConfigInput = {};
   if (folder) parsed.folder = folder;

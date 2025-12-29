@@ -24,4 +24,3 @@ describe("config.mergeConfig", () => {
     ).toThrow(/folder must be a non-empty string/i);
   });
 });
-

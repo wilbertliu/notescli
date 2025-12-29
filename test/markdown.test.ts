@@ -10,4 +10,3 @@ describe("markdown.markdownToHtml", () => {
     expect(html).toContain("Title");
   });
 });
-

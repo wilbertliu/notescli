@@ -14,4 +14,3 @@ export function wrapNotesHtml(innerHtml: string): string {
   const inner = innerHtml.trim();
   return `<div>${inner}</div>`;
 }
-

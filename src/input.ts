@@ -7,7 +7,9 @@ export type MarkdownInputSource =
 
 export const MAX_MARKDOWN_BYTES = 1_000_000;
 
-export async function readMarkdown(source: MarkdownInputSource): Promise<string> {
+export async function readMarkdown(
+  source: MarkdownInputSource,
+): Promise<string> {
   if (source.kind === "text") {
     return normalizeMarkdown(source.text);
   }
@@ -75,4 +77,3 @@ function truncateTitle(title: string): string {
   const maxLen = 120;
   return title.length > maxLen ? `${title.slice(0, maxLen - 1)}…` : title;
 }
-

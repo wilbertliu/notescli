@@ -40,4 +40,3 @@ on run argv
   end tell
 end run
 `.trim();
-
