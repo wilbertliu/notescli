@@ -15,6 +15,9 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "build": "tsup src/index.ts --format esm --platform node --target node20 --sourcemap",
+    "build:bin:darwin-arm64": "bun build src/index.ts --compile --target=bun-darwin-arm64 --outfile dist/darwin-arm64/notescli",
+    "build:bin:darwin-x64": "bun build src/index.ts --compile --target=bun-darwin-x64 --outfile dist/darwin-x64/notescli",
+    "package:release": "bash scripts/package-release.sh",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
