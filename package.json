@@ -1,0 +1,45 @@
+{
+  "name": "notescli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Create Apple Notes from Markdown via CLI (macOS).",
+  "license": "UNLICENSED",
+  "bin": {
+    "notescli": "dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsup src/index.ts --format esm --platform node --target node20 --sourcemap",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier -w .",
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "knip": "knip",
+    "jscpd": "jscpd"
+  },
+  "dependencies": {
+    "commander": "^14.0.2",
+    "cosmiconfig": "^9.0.0",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.50.1",
+    "@typescript-eslint/parser": "^8.50.1",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "jscpd": "^4.0.5",
+    "knip": "^5.78.0",
+    "prettier": "^3.7.4",
+    "tsup": "^8.5.1",
+    "tsx": "^4.0.16",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  }
+}
