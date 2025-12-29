@@ -2,8 +2,10 @@ import { Command } from 'commander'
 import { loadFileConfig, mergeConfig, parseEnvConfig } from './config'
 import { deriveTitle, readMarkdown } from './input'
 import type { MarkdownInputSource } from './input'
+import { htmlToMarkdown } from './htmlToMarkdown'
 import { markdownToHtml } from './markdown'
 import { createNote } from './notes/createNote'
+import { readNote } from './notes/readNote'
 
 export async function runCli(argv: string[]): Promise<void> {
   const program = buildProgram()
@@ -30,17 +32,7 @@ function buildProgram(): Command {
     .option('--json', 'Output machine-readable JSON')
     .option('--dry-run', 'Validate and render, but do not create a note')
     .action(async (opts: Record<string, unknown>) => {
-      const fileConfig = await loadFileConfig()
-      const envConfig = parseEnvConfig(process.env)
-      const cliConfig: { folder?: string; account?: string } = {}
-      if (typeof opts.folder === 'string') cliConfig.folder = opts.folder
-      if (typeof opts.account === 'string') cliConfig.account = opts.account
-      const config = mergeConfig({
-        defaults: { folder: 'Quick Notes' },
-        fileConfig,
-        envConfig,
-        cliConfig,
-      })
+      const config = await resolveConfig(opts)
 
       const source = selectMarkdownSource({
         file: typeof opts.file === 'string' ? opts.file : undefined,
@@ -83,7 +75,49 @@ function buildProgram(): Command {
       outputCreated(created, Boolean(opts.json))
     })
 
+  program
+    .command('read')
+    .description('Read a note and output Markdown')
+    .option('--id <id>', 'Read note by id')
+    .option('--title <title>', 'Read note by exact title')
+    .option('--folder <folder>', 'Notes folder name (default: "Quick Notes")')
+    .option('--account <account>', 'Notes account name (optional)')
+    .option('--json', 'Output machine-readable JSON')
+    .action(async (opts: Record<string, unknown>) => {
+      const config = await resolveConfig(opts)
+      const selector = selectReadSelector({
+        id: typeof opts.id === 'string' ? opts.id : undefined,
+        title: typeof opts.title === 'string' ? opts.title : undefined,
+      })
+
+      const readParams: { selector: typeof selector; folder: string; account?: string } = {
+        selector,
+        folder: config.folder,
+      }
+      if (config.account) readParams.account = config.account
+
+      const note = await readNote(readParams)
+
+      const markdown = htmlToMarkdown(note.html)
+      outputRead(note, markdown, Boolean(opts.json))
+    })
+
   return program
+}
+
+async function resolveConfig(opts: Record<string, unknown>): Promise<{ folder: string; account?: string }> {
+  const fileConfig = await loadFileConfig()
+  const envConfig = parseEnvConfig(process.env)
+  const cliConfig: { folder?: string; account?: string } = {}
+  if (typeof opts.folder === 'string') cliConfig.folder = opts.folder
+  if (typeof opts.account === 'string') cliConfig.account = opts.account
+
+  return mergeConfig({
+    defaults: { folder: 'Quick Notes' },
+    fileConfig,
+    envConfig,
+    cliConfig,
+  })
 }
 
 export function selectMarkdownSource({
@@ -111,6 +145,26 @@ export function selectMarkdownSource({
   if (!isStdinTty) return { kind: 'stdin' }
 
   throw new Error('No input provided. Use --file, --text, or pipe Markdown to stdin.')
+}
+
+export function selectReadSelector({
+  id,
+  title,
+}: {
+  id: string | undefined
+  title: string | undefined
+}): { kind: 'id'; id: string } | { kind: 'title'; title: string } {
+  const idTrimmed = id?.trim()
+  const titleTrimmed = title?.trim()
+
+  if (idTrimmed && titleTrimmed) {
+    throw new Error('Choose only one selector: --id or --title.')
+  }
+
+  if (idTrimmed) return { kind: 'id', id: idTrimmed }
+  if (titleTrimmed) return { kind: 'title', title: titleTrimmed }
+
+  throw new Error('Missing selector. Provide either --id or --title.')
 }
 
 function outputDryRun(
@@ -147,4 +201,23 @@ function outputCreated(created: { id: string; name: string }, asJson: boolean): 
   }
 
   process.stdout.write(`${created.id}\t${created.name}\n`)
+}
+
+function outputRead(note: { id: string; name: string }, markdown: string, asJson: boolean): void {
+  if (asJson) {
+    process.stdout.write(
+      `${JSON.stringify(
+        {
+          id: note.id,
+          name: note.name,
+          markdown,
+        },
+        null,
+        2,
+      )}\n`,
+    )
+    return
+  }
+
+  process.stdout.write(markdown.endsWith('\n') ? markdown : `${markdown}\n`)
 }

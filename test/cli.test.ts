@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { selectMarkdownSource } from '../src/cli'
+import { selectMarkdownSource, selectReadSelector } from '../src/cli'
 
 describe('cli.selectMarkdownSource', () => {
   it('prefers explicit text', () => {
@@ -33,5 +33,22 @@ describe('cli.selectMarkdownSource', () => {
         isStdinTty: true,
       }),
     ).toThrow(/only one input source/i)
+  })
+})
+
+describe('cli.selectReadSelector', () => {
+  it('selects by id', () => {
+    expect(selectReadSelector({ id: ' x ', title: undefined })).toEqual({ kind: 'id', id: 'x' })
+  })
+
+  it('selects by title', () => {
+    expect(selectReadSelector({ id: undefined, title: ' T ' })).toEqual({
+      kind: 'title',
+      title: 'T',
+    })
+  })
+
+  it('errors when both selectors are set', () => {
+    expect(() => selectReadSelector({ id: '1', title: 'T' })).toThrow(/only one selector/i)
   })
 })

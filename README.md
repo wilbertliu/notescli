@@ -54,6 +54,18 @@ Dry run:
 echo "# Hello" | notescli create --dry-run
 ```
 
+Read a note by id and output Markdown:
+
+```sh
+notescli read --id "x-coredata://..."
+```
+
+Read a note by exact title (within folder/account) and output Markdown:
+
+```sh
+notescli read --title "Daily summary"
+```
+
 ## Folder + account behavior
 
 - `--folder` is a single folder name (no nesting). Default: `Quick Notes`.
