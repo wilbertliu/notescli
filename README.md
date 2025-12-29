@@ -12,21 +12,14 @@ Create Apple Notes from Markdown via CLI (macOS).
 
 ```sh
 cd notescli
-npm install
-npm run build
+bun install
+bun run build
 ```
 
 Run directly:
 
 ```sh
 node dist/index.js create --help
-```
-
-Or link as a global command:
-
-```sh
-npm link
-notescli create --help
 ```
 
 ## Usage

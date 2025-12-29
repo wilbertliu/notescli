@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "bun@1.3.3",
   "description": "Create Apple Notes from Markdown via CLI (macOS).",
   "license": "UNLICENSED",
   "bin": {
@@ -19,7 +20,7 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "format": "prettier -w .",
-    "check": "npm run typecheck && npm run lint && npm run test",
+    "check": "bun run typecheck && bun run lint && bun run test",
     "knip": "knip",
     "jscpd": "jscpd"
   },
