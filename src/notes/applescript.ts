@@ -39,4 +39,4 @@ on run argv
     return (id of theNote) & linefeed & (name of theNote)
   end tell
 end run
-`.trim();
+`.trim()

@@ -1,19 +1,19 @@
-import { describe, expect, it } from "vitest";
-import { selectMarkdownSource } from "../src/cli";
+import { describe, expect, it } from 'vitest'
+import { selectMarkdownSource } from '../src/cli'
 
-describe("cli.selectMarkdownSource", () => {
-  it("prefers explicit text", () => {
+describe('cli.selectMarkdownSource', () => {
+  it('prefers explicit text', () => {
     expect(
       selectMarkdownSource({
         file: undefined,
-        text: "hi",
+        text: 'hi',
         stdin: false,
         isStdinTty: true,
       }),
-    ).toEqual({ kind: "text", text: "hi" });
-  });
+    ).toEqual({ kind: 'text', text: 'hi' })
+  })
 
-  it("falls back to stdin when not a TTY", () => {
+  it('falls back to stdin when not a TTY', () => {
     expect(
       selectMarkdownSource({
         file: undefined,
@@ -21,17 +21,17 @@ describe("cli.selectMarkdownSource", () => {
         stdin: false,
         isStdinTty: false,
       }),
-    ).toEqual({ kind: "stdin" });
-  });
+    ).toEqual({ kind: 'stdin' })
+  })
 
-  it("errors when multiple input sources are set", () => {
+  it('errors when multiple input sources are set', () => {
     expect(() =>
       selectMarkdownSource({
-        file: "a.md",
-        text: "hi",
+        file: 'a.md',
+        text: 'hi',
         stdin: false,
         isStdinTty: true,
       }),
-    ).toThrow(/only one input source/i);
-  });
-});
+    ).toThrow(/only one input source/i)
+  })
+})
