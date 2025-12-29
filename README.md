@@ -22,6 +22,20 @@ Run directly:
 node dist/index.js create --help
 ```
 
+## Install (Homebrew tap)
+
+Once you have a tap repo with `Formula/notescli.rb` (see `homebrew/notescli.rb`), install with:
+
+```sh
+brew install <owner>/<tap>/notescli
+```
+
+To cut a release artifact for Homebrew:
+
+```sh
+bun run package:release
+```
+
 ## Usage
 
 Create a note from piped Markdown (defaults to folder `Quick Notes`):
