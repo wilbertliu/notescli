@@ -6,6 +6,7 @@ import {
   tables,
   taskListItems,
 } from 'turndown-plugin-gfm'
+import { normalizeGfmMarkdown } from './gfm'
 
 export function htmlToMarkdown(html: string): string {
   const turndown = new TurndownService({
@@ -20,7 +21,7 @@ export function htmlToMarkdown(html: string): string {
   turndown.use([highlightedCodeBlock, strikethrough, tables, taskListItems])
 
   const markdown = turndown.turndown(html)
-  return normalizeMarkdown(markdown)
+  return normalizeGfmMarkdown(normalizeMarkdown(markdown))
 }
 
 function normalizeMarkdown(markdown: string): string {

@@ -13,4 +13,10 @@ describe('htmlToMarkdown', () => {
     expect(md).toContain('Hello')
     expect(md).toContain('World')
   })
+
+  it('normalizes paragraphs under list items for GFM', () => {
+    const md = htmlToMarkdown('<ul><li><p>a</p><p>b</p></li></ul>')
+    expect(md).toContain('- a')
+    expect(md).toContain('\n\n  b')
+  })
 })

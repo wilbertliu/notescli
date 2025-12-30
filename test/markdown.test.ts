@@ -9,4 +9,13 @@ describe('markdown.markdownToHtml', () => {
     expect(html).toContain('<h1')
     expect(html).toContain('Title')
   })
+
+  it('preserves paragraph breaks under list items', () => {
+    const html = markdownToHtml('- item\n\n b\n')
+    const bIndex = html.indexOf('<p>b</p>')
+    const liCloseIndex = html.indexOf('</li>')
+    expect(bIndex).toBeGreaterThan(-1)
+    expect(liCloseIndex).toBeGreaterThan(-1)
+    expect(bIndex).toBeLessThan(liCloseIndex)
+  })
 })

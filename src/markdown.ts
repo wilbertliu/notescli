@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import { normalizeGfmMarkdown } from './gfm'
 
 const md = new MarkdownIt({
   html: true,
@@ -6,7 +7,7 @@ const md = new MarkdownIt({
 })
 
 export function markdownToHtml(markdown: string): string {
-  const inner = md.render(markdown)
+  const inner = md.render(normalizeGfmMarkdown(markdown))
   return wrapNotesHtml(inner)
 }
 
