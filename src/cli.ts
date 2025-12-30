@@ -23,7 +23,6 @@ function buildProgram(): Command {
   program
     .command('create', { isDefault: true })
     .description('Create a new note from Markdown input')
-    .option('--title <title>', 'Note title (defaults to derived from Markdown)')
     .option('--folder <folder>', 'Notes folder name (default: "Quick Notes")')
     .option('--account <account>', 'Notes account name (optional)')
     .option('--file <path>', 'Read Markdown from a file')
@@ -42,10 +41,7 @@ function buildProgram(): Command {
       })
 
       const markdown = await readMarkdown(source)
-      const title =
-        typeof opts.title === 'string' && opts.title.trim().length > 0
-          ? opts.title.trim()
-          : deriveTitle(markdown)
+      const title = deriveTitle(markdown)
       const html = markdownToHtml(markdown)
 
       const dryRun = Boolean((opts as { dryRun?: unknown }).dryRun) || Boolean(opts['dry-run'])
@@ -80,16 +76,14 @@ function buildProgram(): Command {
     .command('read')
     .description('Read a note and output Markdown')
     .option('--id <id>', 'Read note by id')
-    .option('--title <title>', 'Read note by exact title')
     .option('--folder <folder>', 'Notes folder name (default: "Quick Notes")')
     .option('--account <account>', 'Notes account name (optional)')
     .option('--json', 'Output machine-readable JSON')
     .action(async (opts: Record<string, unknown>) => {
       const config = await resolveConfig(opts)
-      const selector = selectReadSelector({
-        id: typeof opts.id === 'string' ? opts.id : undefined,
-        title: typeof opts.title === 'string' ? opts.title : undefined,
-      })
+      const idTrimmed = typeof opts.id === 'string' ? opts.id.trim() : ''
+      if (!idTrimmed) throw new Error('Missing selector. Provide --id.')
+      const selector = { kind: 'id', id: idTrimmed } as const
 
       const readParams: { selector: typeof selector; folder: string; account?: string } = {
         selector,
@@ -148,26 +142,6 @@ export function selectMarkdownSource({
   if (!isStdinTty) return { kind: 'stdin' }
 
   throw new Error('No input provided. Use --file, --text, or pipe Markdown to stdin.')
-}
-
-export function selectReadSelector({
-  id,
-  title,
-}: {
-  id: string | undefined
-  title: string | undefined
-}): { kind: 'id'; id: string } | { kind: 'title'; title: string } {
-  const idTrimmed = id?.trim()
-  const titleTrimmed = title?.trim()
-
-  if (idTrimmed && titleTrimmed) {
-    throw new Error('Choose only one selector: --id or --title.')
-  }
-
-  if (idTrimmed) return { kind: 'id', id: idTrimmed }
-  if (titleTrimmed) return { kind: 'title', title: titleTrimmed }
-
-  throw new Error('Missing selector. Provide either --id or --title.')
 }
 
 function outputDryRun(

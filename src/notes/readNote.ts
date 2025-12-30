@@ -1,7 +1,7 @@
 import { READ_NOTE_APPLESCRIPT } from './applescript'
 import { runOsaScript } from './osascript'
 
-export type ReadNoteSelector = { kind: 'id'; id: string } | { kind: 'title'; title: string }
+export type ReadNoteSelector = { kind: 'id'; id: string }
 
 export type ReadNoteParams = {
   selector: ReadNoteSelector
@@ -16,12 +16,8 @@ export type ReadNoteResult = {
 }
 
 export async function readNote(params: ReadNoteParams): Promise<ReadNoteResult> {
-  const selectorType = params.selector.kind === 'id' ? 'id' : 'title'
-  const selectorValue = params.selector.kind === 'id' ? params.selector.id : params.selector.title
-
   const output = runOsaScript(READ_NOTE_APPLESCRIPT, [
-    selectorType,
-    selectorValue,
+    params.selector.id,
     params.folder,
     params.account ?? '',
   ])

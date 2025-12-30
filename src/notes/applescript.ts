@@ -43,14 +43,13 @@ end run
 
 export const READ_NOTE_APPLESCRIPT = String.raw`
 on run argv
-  if (count of argv) is not 4 then
-    error "Expected 4 arguments: selectorType, selectorValue, folder, accountOrEmpty"
+  if (count of argv) is not 3 then
+    error "Expected 3 arguments: id, folder, accountOrEmpty"
   end if
 
-  set selectorType to item 1 of argv
-  set selectorValue to item 2 of argv
-  set folderName to item 3 of argv
-  set accountName to item 4 of argv
+  set noteId to item 1 of argv
+  set folderName to item 2 of argv
+  set accountName to item 3 of argv
 
   tell application "Notes"
     if not running then launch
@@ -76,21 +75,14 @@ on run argv
     end if
     set theFolder to item 1 of matchingFolders
 
-    set matchingNotes to {}
-    if selectorType is "id" then
-      set matchingNotes to notes of theFolder whose id is selectorValue
-    else if selectorType is "title" then
-      set matchingNotes to notes of theFolder whose name is selectorValue
-    else
-      error "Invalid selectorType: " & selectorType
-    end if
+    set matchingNotes to notes of theFolder whose id is noteId
 
     if (count of matchingNotes) is 0 then
-      error "Note not found: " & selectorValue
+      error "Note not found: " & noteId
     end if
 
     if (count of matchingNotes) is greater than 1 then
-      error "Multiple notes found: " & selectorValue
+      error "Multiple notes found: " & noteId
     end if
 
     set theNote to item 1 of matchingNotes
