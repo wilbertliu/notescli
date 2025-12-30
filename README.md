@@ -7,6 +7,7 @@ Create and Read Apple Notes via CLI
 - Reads Markdown from `--text`, `--file`, or stdin
 - Converts it to HTML
 - Creates a new note in Apple Notes (background-only) via `osascript`
+- Derives the note title from the first non-empty line (prefers `# H1`)
 
 ## Install (local dev)
 
@@ -50,12 +51,6 @@ Create a note from a file:
 notescli create --file ./agent-output.md
 ```
 
-Set title explicitly:
-
-```sh
-notescli create --title "Daily summary" --file ./summary.md
-```
-
 Machine-readable output:
 
 ```sh
@@ -72,12 +67,6 @@ Read a note by id and output Markdown:
 
 ```sh
 notescli read --id "x-coredata://..."
-```
-
-Read a note by exact title (within folder/account) and output Markdown:
-
-```sh
-notescli read --title "Daily summary"
 ```
 
 ## Folder + account behavior
