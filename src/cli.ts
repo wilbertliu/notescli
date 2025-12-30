@@ -17,7 +17,7 @@ function buildProgram(): Command {
 
   program
     .name('notescli')
-    .description('Create and Read Apple Notes from Markdown (macOS).')
+    .description('Create and Read Apple Notes via CLI')
     .showHelpAfterError()
 
   program

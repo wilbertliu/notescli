@@ -1,5 +1,5 @@
 class Notescli < Formula
-  desc "Create and Read Apple Notes from Markdown via CLI (macOS)"
+  desc "Create and Read Apple Notes via CLI"
   homepage "https://github.com/wilbertliu/notescli"
   version "0.1.0"
 
