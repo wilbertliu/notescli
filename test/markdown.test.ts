@@ -10,6 +10,13 @@ describe('markdown.markdownToHtml', () => {
     expect(html).toContain('Title')
   })
 
+  it('renders GFM task list items as checkboxes', () => {
+    const html = markdownToHtml('- [ ] one\n- [x] two\n')
+    expect(html).toContain('type="checkbox"')
+    expect(html).toContain('one')
+    expect(html).toContain('two')
+  })
+
   it('preserves paragraph breaks under list items', () => {
     const html = markdownToHtml('- item\n\n b\n')
     const bIndex = html.indexOf('<p>b</p>')
