@@ -1,15 +1,15 @@
 class Notescli < Formula
   desc "Create and Read Apple Notes via CLI"
   homepage "https://github.com/wilbertliu/notescli"
-  version "0.1.1"
+  version "0.2.0"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/wilbertliu/notescli/releases/download/v#{version}/notescli-#{version}-darwin-arm64.tar.gz"
-      sha256 "144b4f212cb452ee0e46c8e756d62c7a7300d1b8cca0ad3906cf5924eb95d151"
+      sha256 "2b09f392e8524628e9eb49550a953adfa5a19e7874364c1d9a396bc692d089e9"
     else
       url "https://github.com/wilbertliu/notescli/releases/download/v#{version}/notescli-#{version}-darwin-x64.tar.gz"
-      sha256 "c456ba18d196fd4c61eb39e892cdfb024b5dd5157a661942e3125988993cf3ea"
+      sha256 "4c813e769afe5011de672fabdcc1aeaf97a7722b00e99502684a762a40fac999"
     end
   end
 
