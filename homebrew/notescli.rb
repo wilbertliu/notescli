@@ -6,10 +6,10 @@ class Notescli < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/wilbertliu/notescli/releases/download/v#{version}/notescli-#{version}-darwin-arm64.tar.gz"
-      sha256 "7f7b6469c956280aa7c405d9e64fa7d7052b1408b1afa78f5748c18b49d85870"
+      sha256 "e57c201a390d8e2439bdce08592b3b014b65b5d406df872bb4e84ce6d7c3bce0"
     else
       url "https://github.com/wilbertliu/notescli/releases/download/v#{version}/notescli-#{version}-darwin-x64.tar.gz"
-      sha256 "d74f7efdab8e107ef6623df1531f12f09f664b92be13852351784edf25006ae6"
+      sha256 "844891991380cd82d31085917f8f1446661730ee2807a83d29cf10a264811dde"
     end
   end
 
